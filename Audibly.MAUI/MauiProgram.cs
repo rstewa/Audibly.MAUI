@@ -51,17 +51,6 @@ public static class MauiProgram
             {
                 wndLifeCycleBuilder.OnWindowCreated(window =>
                 {
-                    var appWindow = window.GetWindow() as Window;
-                    // var density = appWindow.DisplayDensity;
-                    var density = (float)2;
-                    if (density != 1)
-                    {
-                        width = (width * density).ToInt();
-                        height = (height * density).ToInt();
-                        window.SetWindowSize(width, height);
-                        window.CenterOnScreen();
-                    }
-
                     window.SetIsResizable(false);
                     window.ExtendsContentIntoTitleBar = true;
                 });

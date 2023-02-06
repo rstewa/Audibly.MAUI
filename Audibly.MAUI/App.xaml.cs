@@ -1,4 +1,4 @@
-﻿#if WINDOWS
+﻿#if WINDOWS || DEBUG
 using Audibly.MAUI.Extensions;
 using WinUIEx;
 #endif
@@ -7,6 +7,9 @@ namespace Audibly.MAUI;
 
 public partial class App : Application
 {
+    private const double _width = 315;
+    private const double _height = 440;
+
 	public App()
 	{
 		InitializeComponent();
@@ -20,32 +23,27 @@ public partial class App : Application
         window.Activated += Window_Activated;
         window.DisplayDensityChanged += Window_DisplayDensityChanged;
 
-        var tmp = window.DisplayDensity;
-
         return window;
     }
 
     private async void Window_DisplayDensityChanged(object sender, DisplayDensityChangedEventArgs e)
     {
         var window = sender as Window;
-        await window.ResizeWindowToDensity();
+        await window.ResizeWindowToDensity(_width, _height);
     }
 
     private async void Window_Activated(object sender, EventArgs e)
     {
-        const int width = 315;
-        const int height = 440;
 
-#if WINDOWS
+#if WINDOWS || DEBUG
 
         var window = sender as Window;
 
-        await window.SetWindowSize(width, height);
+        await window.SetWindowSize(_width, _height);
 
         if (DeviceDisplay.Current.MainDisplayInfo.Density != 1)
-            await window.ResizeWindowToDensity();
+            await window.ResizeWindowToDensity(_width, _height);
 
-        // move to screen center
         window.CenterOnScreen();
                     
 #elif MACCATALYST

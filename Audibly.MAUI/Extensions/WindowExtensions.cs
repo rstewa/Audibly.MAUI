@@ -2,7 +2,7 @@
 {
     public static class WindowExtensions
     {
-        public static async Task SetWindowSize(this Window window, int width, int height)
+        public static async Task SetWindowSize(this Window window, double width, double height)
         {
             // change window size.
             window.Width = width;
@@ -12,19 +12,16 @@
             await window.Dispatcher.DispatchAsync(() => { });
         }
         
-        public static async Task ResizeWindowToDensity(this Window window)
+        public static async Task ResizeWindowToDensity(this Window window, double width, double height)
         {
             var disp = DeviceDisplay.Current.MainDisplayInfo;
 
-            // change window size.
-            window.Width *= disp.Density;
-            window.Height *= disp.Density;
+            var w = width * disp.Density;
+            var h = height * disp.Density;
 
-            // give it some time to complete window resizing task.
-            await window.Dispatcher.DispatchAsync(() => { });
+            await window.SetWindowSize(w, h);
         }
 
-        // TODO => may need to add await window.Dispatcher.DispatchAsync(() => { });
         public static void CenterOnScreen(this Window window)
         {
             var disp = DeviceDisplay.Current.MainDisplayInfo;
